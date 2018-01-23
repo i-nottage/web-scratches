@@ -1,0 +1,46 @@
+
+body {
+	background-color:black;
+	font-family: "Courier New", Courier, monospace;
+}
+
+#wrapper {
+	width:60%;
+	text-align:center;
+	margin: 0px auto;
+}
+
+#content {
+}
+
+#void-space {
+	height: 200px;
+}
+
+#void-ul {
+	padding:0;
+}
+
+#void-ul > li {
+	list-style-type:none;
+	color:white;
+}
+
+#void-input-text {
+	width: 400px;
+	height:30px;
+	color:white;
+	background-color:black;
+	border: solid 1px white;
+	border-radius:5px;
+}
+
+#links > a > div {
+	
+	width: 150px;
+	height: 30px;
+	color:black;
+	background-color:white;
+	border: solid 1px white;
+	border-radius:5px;
+}

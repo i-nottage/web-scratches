@@ -1,0 +1,73 @@
+<html>
+	<head>
+		<title>Composer</title>
+		<link href="style/composer.css" rel="stylesheet">
+
+		<script src="js/utilities.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+		<script src="js/composer.js"></script>
+
+		<script type="text/javascript">
+
+		var ws_composer;
+
+		ws.Autoloader(function() {
+	     
+				ws_composer = new ws.Composer({
+						input_container : document.getElementById('composer-input'),
+						input_field : document.getElementById('composer-input-text'),
+						input_form : document.getElementById('composer-input-form'),
+						space : document.getElementById('composer-space'),
+						space_canvas : document.getElementById('composer-canvas'),
+						space_display : document.getElementById('composer-space-display')
+					});
+		});
+		</script>
+	</head>
+	<body>
+		<div id="wrapper">
+			 <!-- The overlay -->
+			<div id="myNav" class="overlay">
+
+				<!-- Button to close the overlay navigation -->
+				<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+				<!-- Overlay content -->
+				<div class="overlay-content">
+
+					<!-- Last statement -->
+					<div id="overlay-statement"></div>
+
+					<!-- Links -->
+					<a href="#">Right</a>
+					<a href="#">Down</a>
+				</div>
+
+			</div>
+
+			<div id="header">
+				<h1>COMPOSER</h1>
+			</div>
+			<div id="content">
+				<div id="composer-space">
+					<div id="composer-space-display">Empty</div>
+					<canvas id='composer-canvas'>
+					</canvas>
+				</div>
+				<div id="composer-input">
+					<form id="composer-input-form">
+					<input id="composer-input-text" type="text" autocomplete="off">
+					</form>
+				</div>
+
+				<button id="canvas-move-left" class="move-button">Canvas Move Left</button>
+				<button id="canvas-move-right" class="move-button">Canvas Move Right</button>
+				<button id="canvas-move-up" class="move-button">Canvas Move Up</button>
+				<button id="canvas-move-down" class="move-button">Canvas Move Down</button>
+			</div>
+			<div id="footer">
+				<a href="index.html">Back to Reality</a>
+			</div>
+		</div>
+	</body>
+</html>

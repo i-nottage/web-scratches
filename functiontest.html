@@ -1,0 +1,46 @@
+<html>
+	<head>
+		<script src="js/utilities.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+		<script src="js/memorizer.js"></script>
+	</head>
+	<body>
+		<div id="header">
+		</div>
+		<div id="content">
+			<div id="getelements">
+				<!-- Stuff -->
+				<div class="label">
+					<h3>Practice Form</h3>
+					<h5>For get Child elements js</h5>
+				</div>
+
+				<!-- Two divs -->
+				<div class="test col-sm-5">
+					<p id="one">One</p>
+					<p id="two">Two</p>
+				</div>
+				<div class="row col-sm-5 col md-5 col-lg-6">
+					<p class="thor">Thor</p>
+					<span class="error"></span>
+				</div>
+				<div>
+					<form action="#">
+						<input type="text" name="text" />
+						<input type="submit" text="Hello">
+					</form>
+				</div>
+			</div>
+			<div id="links">
+				<a href="composer.html">Back Home</a><br>
+			</div>
+		</div>
+		<div id="footer">
+			<select></select>
+		</div>
+		<script>
+			var children = new ws.ElementMap(document.getElementById('getelements'));
+			var one = 1;
+		</script>
+	</body>
+</html>

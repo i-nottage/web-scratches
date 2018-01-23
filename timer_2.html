@@ -1,0 +1,74 @@
+<html>
+	<head>
+		<title>Productivity Timer</title>
+		
+		<script src="js/utilities.js"></script>
+		<!--<script src="js/jquery-3.1.1.js"></script>-->
+		<script src="https://code.jquery.com/jquery-3.2.1.js"
+			  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+			  crossorigin="anonymous"></script>
+		<link rel="stylesheet" type="text/css" href="style/timer.css">
+
+		<script src="js/timer_2.js"></script>
+		
+		<style>
+/*
+			#timer-beep {
+				position:absolute;
+				top: -100000em;
+			}
+			*/
+		</style>
+		<script type="text/javascript">
+		var ws_timer;
+		ws.Autoloader(function() {
+	     
+				ws_timer = new ws.Timer({
+						/*
+						timer_settings : document.getElementById('timer-settings'),
+						timer : document.getElementById('timer'),
+						*/
+						root: document.getElementById('timer-panel'),
+						timer_audio : document.getElementById('timer-beep'),
+						start_now : false,
+						repeat : true,
+					});
+		});
+		</script>
+	</head>
+	<body>
+		<div id="header">
+			<h1>Productivity Timer</h1>
+			<p>A timer that dings when the clock runs down. I find being aware
+			of the intervals can help me to focus.</p>
+		</div>
+		<div id="content">
+			<div id="timer-panel" class="timer-panel">
+			<form id="timer-counters">
+				<div class="timer-clock minute-counter">
+					<div class="timer-control">
+					<button class="timer-control-arrow minute up-button">&#8593;</button>
+						<input class="timer-input minutes-input" type="text" name="minutes" value="00">
+					<button class="timer-control-arrow minute down-button">&#8595;</button>
+					</div>
+				<span class="colon">:</span>
+					<div class="timer-control second-counter">
+					<button class="timer-control-arrow second up-button">&#8593;</button>
+						<input class="timer-input seconds-input" type="text" name="seconds" value="00">
+					<button class="timer-control-arrow second down-button">&#8595;</button>
+					</div>
+				</div>
+				<div class="timer-toggle-buttons">
+				<button class="timer-toggle-switch">Start</button>
+				</div>
+			</form>
+			</div>
+			<audio id="timer-beep">
+			  <source src="assets/chime.mp3"/>
+			</audio>
+		</div>
+		<div id="footer">
+			<a href="index.html">Back to Reality</a>
+		</div>
+	</body>
+</html>

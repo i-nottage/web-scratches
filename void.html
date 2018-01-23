@@ -1,0 +1,51 @@
+<html>
+	<head>
+		<link href="style/void.css" rel="stylesheet">
+
+		<script src="js/utilities.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+		<script src="js/void.js"></script>
+
+		<script type="text/javascript">
+			
+			var ws_void;
+
+			ws.Autoloader(function() {
+
+						ws_void = new ws.Void({
+							void_space : document.getElementById('void-space'),
+							void_ul : document.getElementById('void-ul'),
+							void_input_form : document.getElementById('void-input-form'),
+							void_input_text : document.getElementById('void-input-text')
+						});
+					});
+		</script>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="header"></div>
+			<div id="content">
+				<div id="void-space">
+					<ul id="void-ul">
+						<li>
+							<h1>The Void</h1>
+							<p>Type shit into the text field</p>
+							<p>Press enter...</p>
+							<p>And watch it pile up as nobody responds</p>
+						</li>
+					</ul>
+				</div>
+				<div id="void-input">
+					<form id="void-input-form">
+					<input id="void-input-text" type="text" autocomplete="off">
+					</form>
+				</div>
+			</div>
+			<div id="footer">
+				<div id="links">
+					<a href="index.html"><div><b>Give Up?</b></div></a>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

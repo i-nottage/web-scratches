@@ -1,0 +1,37 @@
+web_scratches=~/random_code/web-scratches CD=~/random_code/web-scratches {
+ composer.html
+ functiontest.html
+ incomplete.html
+ index.html
+ email_template.html
+ memorizer.html
+ summoner.html
+ switchcomic.html
+ thoughts.txt
+ timer.html
+ timer_2.html
+ void.html
+ web_scratches
+ js=js {
+  utilities.js
+  void.js
+  timer.js
+  timer_2.js
+  memorizer.js
+  summoner.js
+  switchcomic.js
+  composer.js
+ }
+ style=style {
+  void.css
+  composer.css
+  switchcomic.css
+  timer.css
+ }
+ email_template=email_template {
+  email-inlined.html
+  email.html
+  license.txt
+  readme.md
+ }
+}

@@ -1,0 +1,1176 @@
+COMPOSER
+
+==========
+
+Making this because the process of writing; the act of sitting down
+and filling out complete sentences, is not intuitive for me. It kills
+my creativity.
+
+I need something that will allow me to get my thoughts down and let
+them flow freely without as much concern over the technical
+construction of a sentence. But still allow me to read it and deduce
+the structure.
+
+===============
+
+SwitchComiccccccccc
+
+So, I can read comic tag...
+
+- Need to figure out what mah variables are
+
+- Elements to load into the comic
+- - Position for each element
+
+- Types of elements
+- - For now::shapes and images
+
+- Types of shapes
+ - - drawCircle, drawEllipse drawPolyStar drawRect drawRoundRect
+   drawRoundRectComplex 
+
+- 
+
+===============
+
+HOW DO I HANDLE TRANSITIONS?
+
+- for now, move everything
+
+
+				<shape pshape="circle" pstroke-style="5"
+pstroke-color="#ff9900" px="100" py="50" pradius="20"></shape>
+
+---------
+
+So, it's ALL bitmaps that i make objects out of into the list
+
+===============
+
+OKAY WE GOT MOTION!!!
+
+- ParseInt is required for Bitmaps when you get the values from html
+  attributes
+
+-----------
+
+Markup Structure:
+
+Panel - a recording of a state
+
+- <new-elements></new-elements>
+- <riding-elements></riding-elements>
+
+----
+
+Where in my code will I adjust staging
+
+----
+
+element: - initial position - initial visibility
+
+------------------
+
+If somebody touches in the middle of a tween, i should skip to the end
+of the tween
+
+- Just because the child is removed from the stage, it doesn't mean
+  it's gone. I should keep a reference to all panels. Handy
+
+----
+
+Next stage for me this evening will be adding layers to animations so
+that items come through in different speeds, adding a coolass effect.
+
+- A completion duration variable may be useful
+
+---------
+
+- DURATION
+- - Maybe a panel duration to 
+- TO array
+- - default: 400
+- WAIT array
+- Ease function
+- - 
+- IN FROM (position)
+- OUT TO (position)
+
+- How to do fade(in/out)?
+- - In at regular position
+- - visual
+
+============================
+
+CODE DEPOSITORY!!!
+
+- from switchcomic.html
+				/*
+			var stage = new createjs.Stage(document.getElementById('switchcomic_canvas'));
+			var image = new createjs.Bitmap('images/blackest_1.png');
+
+			var rect = new createjs.Shape();
+			rect.graphics.setStrokeStyle(5);
+			rect.graphics.beginStroke('#FF9900');
+			rect.graphics.drawRect(100, 100, 100, 100);
+			
+			image.x = 0;
+			image.y = 0;
+			stage.addChild(image);
+			stage.addChild(rect);
+			var tween = createjs.Tween.get(image).to({x: -40}, 1500, createjs.Ease.circOut);
+			var tween = createjs.Tween.get(rect).to({x: 200}, 1500, createjs.Ease.circOut);
+
+			// for now, do it this way
+			createjs.Ticker.setFPS(60);
+			createjs.Ticker.addEventListener("tick", stage);
+				*/
+
+- in comic tags
+
+<!--	<shape pshape="rect" pstroke-style="5" pstroke-color="#0099AA"
+px="100" py="300" pw="50" ph="50"></shape> <sw-image
+psrc="images/rect_1.png" px="60" py="60"></sw-image>-->
+
+- from switchcomic.js
+
+- ~78
+		/*
+		var image = new createjs.Bitmap('images/blackest_1.png');
+		image.x = 0;
+		image.y = 0;
+		this._stage.addChild(image);
+		this._stagedPanels[0].objects.push(image);
+		*/
+- ~206
+		//var timeline = new createjs.Timeline();
+
+		/*
+		var image = new createjs.Bitmap('images/blackest_1.png');
+		image.x = 0;
+		image.y = 0;
+		this._stage.addChild(image);
+
+		var images = [];
+		images.push(image);
+
+		for( var i=0; i < images.length; i++) {
+			var array_image = images[i];
+			var tween = createjs.Tween.get(array_image).to({x: 400}, 1500, createjs.Ease.circOut);
+		}
+		*/
+
+		/*
+		var object = this._stagedPanels[0].objects[0];
+		var tween = createjs.Tween.get(object).to({x: 200}, 500, createjs.Ease.circOut);
+		*/
+		/*
+		for (var i=0; i < this._stagedPanels[0].objects.length; i++) {
+			var object = this._stagedPanels[0].objects[i];
+			var tween = createjs.Tween.get(object).to({x: 200}, 1500, createjs.Ease.circOut);
+			break;
+		}
+		*/
+			//var tween = createjs.Tween.get(object).to({x: object.x -
+			//self.CANVAS_WIDTH}, 500, createjs.Ease.circOut);
+
+			//timeline.addTween(tween); /.to({x: object.x -
+			//self.CANVAS_WIDTH}, 500)
+
+			//var tween = createjs.Tween.get(object).to({x: object.x -
+			//self.CANVAS_WIDTH}, 500, createjs.Ease.circOut);
+
+			//timeline.addTween(tween); /.to({x: object.x -
+			//self.CANVAS_WIDTH}, 500)
+
+		//timeline.gotoAndPlay(0); createjs.Tween.get(square).to({x:
+		//50, y: 50}, 3000);
+
+===========================
+
+INITIAL PLACEMENT
+
+- default: same y, one canvas width apart
+
+-----------------------
+
+Why am i staging this object?
+
+- In preparation (adjusted left or right)
+- or because we're initializing to it, in which case we want the px/y
+  values 
+
+------------------
+
+When moving in or out
+
+Backward:
+- - current -> next
+- - prev -> current
+
+Forward:
+- - current -> prev
+- - next -> current
+
+
+				x: isNan(object.pinfo['tox']) ? (object.pinfo['px'] -
+this.CANVAS_WIDTH) : object.pinfo['tox'],
+
+------------
+
+if they aren't a number, or they're undefined
+
+------------
+
+TO Parameters
+
+- calculate -offscreen and +offscreen
+- - use object.getBounds()
+
+-----------
+
+I want to make this an object
+
+-----------
+
+NEW DISPLAY OBJECT!!!
+
+- Children are the types of objects (Image, Rect, Circle, etc as
+  needed)
+- 
+
+- Panel gets called, figures out what state it's in, creates objects
+
+- What are objects responsible for
+- they can be staged
+
+- An object must know its states, must be able to transfer itself
+  between them when called
+- - How can an object know it's states? It can't beyond the first
+- - - A state can be applied to an object!!
+- - - - Technically any object...
+
+- A panel contains objects each at different states
+- - A panel can be just html
+- - Canvas panels share the same canvas
+- - Objects reach different states through transition
+- - - Usually handled with a TWEEN
+
+- A panel can only be in three states
+
+- Animation::
+- - pass in a tween, put on the animation, return tween
+
+-----------
+
+PRETTIFYING THE CODE
+
+- Get a function that calls the function and returns 
+
+-----------
+
+JPG CHROMA KEY!!!
+
+** I don't know how long it will take to save the new image *GASP* **
+
+- Load an image file (before EaselJS)
+- draw it into a resized canvas
+- - turn all pixels of key into transparent
+- - *save new temporary image*
+- - load temporary image as new createjs.Bitmap
+
+WRONG!!!---no, still right, because it doesn't matter if it's saved as
+a larger png, because we're not responsible for bandwidth anymore
+
+-----------
+
+HUGE SPRITE SHEET
+
+- saving everything to a gigantic sprite sheet: with image data
+  locations! will help me save space (tabun)
+
+-----------
+
+ANIMATE
+
+Given (enter settings) (display settings) (exit settings), animate
+- - Location
+- - Wait
+- - Fade
+
+If you detect one, add animation to tween
+
+Sooo...
+
+stagedPanel.__.objects { 
+
+	object.animate('toEnter || toDisplay || toExit');
+
+}
+
+DisplayObject.animate(next_position) { 
+	
+	- createjs.Tween.get(this);
+
+	- getAnimationsFor(next_position);
+
+	- foreach animation in animations{ animation(tween); } 
+
+	- animations is a list of functions
+
+	ie, WAIT, GOTO, FADE
+
+	function EXAMPLE(tween, settings) {
+
+		tween.EXAMPLE({settings});
+
+		// example animation gets queued in tween
+
+	}
+
+	!!! How do they get the settings in there?
+
+	AnimationFactory(function, settings)
+
+	if (function == EXAMPLE) { 
+
+		var example = new EXAMPLE(settings);
+
+		return example;
+
+	}
+
+	function EXAMPLE(settings) {
+
+		return function (tween) {
+
+			tween.EXAMPLE(settings);
+
+		}
+
+	}
+
+}
+
+----------- 
+
+COMMENTED OUT CODE part TWO
+
+			/*
+
+			function Alert() {
+				return this;
+			}
+
+			Alert.prototype.myAlert = function (message) {
+				alert(message);
+			}
+
+			function AlertMaker() {
+				var aa = new Alert();
+				return aa;
+			}
+
+			AlertMaker().myAlert('prototype');
+			*/
+
+----------- 
+
+CREATING OBJECTS
+
+- You have the initial creation
+- then you have object specific stuff
+
+-----------
+
+PANEL
+
+Create  Panel
+
+- Panel
+- - Panel has one of three states (goingIn, in, out)
+- - Panels pass object info to objects
+
+_ Create objects
+
+NextPanel -> each object -> animate
+
+- Each panel knows where the object ought to be in each state
+- - each panel sends the object animation information
+
+- SWITCHCOMIC
+- - ForeachPanel( switchForward || switchBack )
+- - Handle object transfers
+
+- - Panel
+- - - change state
+- - - ForeachObject( forward || back )
+- - - - animate + queue up next animations
+
+- - - An object has:::
+- - CURRENT POSITION -> Next, and previous
+- - - next can be null 
+
+- - state is like...x, y, alpha, visible
+
+CurrentState: {
+
+	x, y, alpha, visible
+
+}
+
+Switch: {
+
+	to: x, y, alpha, visible
+	
+	animations: []
+
+}
+
+ElementInfo.properties
+
+-----------
+
+OBJECT CREATION IS A PAIN IN THE ASS
+
+1) Figure out what type of object we need
+
+2) Get states 
+
+3) Get Animations Between the States
+
+- - basically done
+
+*** NOTES ***
+
+- need to make sure values are properly standardized
+- - intmap, boolmap, etc.
+- need to make sure
+
+-------------
+
+CODE DUMP pt 3 /
+
+		/*FROM GETTOPARAMETERS */
+			/*
+			to_array = {
+				x: object.pinfo['fromx'] || (object.pinfo['px'] + this.CANVAS_WIDTH),
+				y: object.pinfo['fromy'] || object.pinfo['py'],
+				alpha: object.pinfo['palpha']	|| 1	
+			}
+			*/
+
+
+		/* OLD ADJUSTMENT STANDARDIZATION CODE */
+
+		if (objectInfo.adjustment == 'right') {
+			objectInfo['px'] = parseInt(objectInfo['px']) + this.CANVAS_WIDTH;
+		} else if (objectInfo.adjustment == 'left') {
+			objectInfo['px'] = parseInt(objectInfo['px']) - this.CANVAS_WIDTH;
+		}
+		*/
+
+		/* Old snap to code for objects
+
+		if (objectInfo.adjustment == 'right') { // staging for forward preparation
+			this._object.x = objectInfo['fromx'] || objectInfo['px'] + this.CANVAS_WIDTH;
+			this._object.y = objectInfo['fromy'] || objectInfo['py']; // keep y as default
+		} else if (objectInfo.adjustment == 'left') { // staging for backward preparation
+			//objectInfo['px'] = objectInfo['px'] - this.CANVAS_WIDTH;
+			this._object.x = objectInfo['tox'] || objectInfo['px'] - this.CANVAS_WIDTH;
+			this._object.y = objectInfo['toy'] || objectInfo['py']; // keep y as default
+		}
+		else { 
+			this._object.x = objectInfo['px'];
+			this._object.y = objectInfo['py'];
+		}
+
+		//object.y = objectInfo['fromy'] || objectInfo['py']; // keep y as default
+		this._object.alpha = objectInfo['palpha'] || 1;
+		*/
+
+	/* ANCIENT v1 FUNCTIONS FROM before we started separating things
+ * out
+	// Gives us a way to 
+	_stageObject: function (element, adjustment) {
+
+		var self = this;
+		
+		var elementInfo = this._panelObjectMap[element.tagName];
+		elementInfo.properties = elementInfo.properties.concat( this._panelObjectMap['ANIMATION']['in'], this._panelObjectMap['ANIMATION']['out']);
+		
+		var objectInfo = {
+			id: element.id,
+			type: elementInfo.type,
+			adjustment: adjustment || undefined,
+		};
+
+		$.each(elementInfo['properties'], function (index, propertyName) {
+			// Check to see if value is an int, and convert if so
+			var val = $( element ).attr(propertyName) || self._animationDefaults[propertyName];
+			val = self._propertyIntMap[propertyName] ? parseInt(val) : val;
+			val = self._propertyBoolMap[propertyName] ? ws.parseBool(val) : val;
+
+			// add properly formatted value
+			objectInfo[propertyName] = val;
+		});
+
+		var object = this._resolveObject(objectInfo);
+		this._stage.addChild(object);
+		object.pinfo = objectInfo;
+		return object;
+	},
+	_resolveObject: function (objectInfo) {
+		if (objectInfo.type == 'SW-IMAGE') {
+			return this._createBitmap(objectInfo);
+		} else if (objectInfo.type == 'SHAPE') {
+			return this._createShape(objectInfo);
+		}
+	},
+	_createShape: function (objectInfo) {
+		switch(objectInfo.pshape) {
+			case 'rect':
+				return this._createRect(objectInfo);
+			case 'circle':
+				return this._createCircle(objectInfo);
+		}
+	},
+	_createCircle: function (objectInfo) {
+
+		var circle = new createjs.Shape();
+		circle.graphics.setStrokeStyle(objectInfo['pstroke-style']);
+		circle.graphics.beginStroke(objectInfo['pstroke-color']);
+		circle.graphics.drawCircle(0, 0, objectInfo['pradius']);
+		return this._setCommonObjectInfo(circle, objectInfo);
+	},
+	_createRect: function (objectInfo) {
+
+		var rect = new createjs.Shape();
+		rect.graphics.setStrokeStyle(objectInfo['pstroke-style']);
+		rect.graphics.beginStroke(objectInfo['pstroke-color']);
+		rect.graphics.drawRect(0, 0, objectInfo['pw'], objectInfo['ph']);
+		return this._setCommonObjectInfo(rect, objectInfo);
+	},
+	_createBitmap: function (objectInfo) {
+		var image = new createjs.Bitmap(objectInfo['psrc']);
+		return this._setCommonObjectInfo(image, objectInfo);
+	},
+	//
+	// Sets default values for x and y if fromx and fromy aren't specified
+	//
+	_setCommonObjectInfo: function (object, objectInfo) {
+
+		if (objectInfo.adjustment == 'right') { // staging for forward preparation
+			object.x = objectInfo['fromx'] || objectInfo['px'] + this.CANVAS_WIDTH;
+			object.y = objectInfo['fromy'] || objectInfo['py']; // keep y as default
+		} else if (objectInfo.adjustment == 'left') { // staging for backward preparation
+			//objectInfo['px'] = objectInfo['px'] - this.CANVAS_WIDTH;
+			object.x = objectInfo['tox'] || objectInfo['px'] - this.CANVAS_WIDTH;
+			object.y = objectInfo['toy'] || objectInfo['py']; // keep y as default
+		}
+		else { 
+			object.x = objectInfo['px'];
+			object.y = objectInfo['py'];
+		}
+
+		//object.y = objectInfo['fromy'] || objectInfo['py']; // keep y as default
+		object.alpha = objectInfo['palpha'] || 1;
+		return object;
+	},
+	_getToParameters: function (object, state) {
+		var to_array;
+		if (state == 'toNext') {  // ie: backwards, to on deck status
+			to_array = {
+				x: object.pinfo['fromx'] === undefined || isNaN(object.pinfo['fromx']) ? (object.pinfo['px'] + this.CANVAS_WIDTH) : object.pinfo['fromx'],
+				y: object.pinfo['fromy'] || object.pinfo['py'],
+				alpha: object.pinfo['palpha']	|| 1	
+			}
+		}
+		if (state == 'toPrev') {
+			to_array = {
+				x: object.pinfo['tox'] === undefined || isNaN(object.pinfo['tox']) ? (object.pinfo['px'] - this.CANVAS_WIDTH) : object.pinfo['tox'],
+				//x: object.pinfo['tox'] || (object.pinfo['px'] - this.CANVAS_WIDTH),
+				y: object.pinfo['toy'] || object.pinfo['py'],
+				alpha: object.pinfo['palpha']	|| 1	
+			}
+
+		}
+		if (state == 'toDisplay') {
+			to_array = {
+				x: object.pinfo['px'],
+				y: object.pinfo['py'],
+				alpha: object.pinfo['palpha']	|| 1
+			}
+		}
+
+		return to_array;
+	},
+	*/
+
+=====================
+
+Get state properties...from elementInfo
+
+=====================
+
+How to tell which switch a state is from
+
+- A switch is a transition between TWO STATES from ONE OR MORE PANELS
+
+- I can assume that any object's two states has a switch between them
+- I need to be able to tell an object's entrance from it's exit
+- - or whether it's staged or not
+- Also, a bunch of objects will usually be switching at the same
+  time...so...
+
+Context of a switch
+- Current Panel (along with Previous and Next Panels)
+- - out of number of total panels
+- Current Object State (along with Previous and Next State)
+- - given context by number of object states
+
+- Which two states are we switching between?
+- - the switch is what gets us between two states 
+
+A switch can serve as a pointer to the next state || or previous state
+
+A blank switch is waiting for a new state 
+
+- - So, we've got a Doubly Linked List
+- - - Accessible from the Object, (switch to: (next || back)
+
+Object
+
+... <-(switch)-> State <-(switch)-> State <-(switch)-> ...
+
+DECISION TREE SOLUTION
+
+- get context for object, which 
+
+- if it's between PREV and SHOW
+- - use the first
+- if it's btween SHOW and NEXT
+- - use the second
+- if there is no PREV
+- - use the first
+- if there is no NEXT
+- - use the first
+
+=============
+
+Create an Object with the Object Factory...maybe
+
+- Get Element from Panel
+- Process Elements
+- - I now have elements
+
+I 
+
+- Create ObjectStateList
+
+==============
+
+When you add, create a Switch Fragment (just the 
+
+Create a SwitchFragment
+
+===============
+
+CODE DUMP pt 4
+
+			/* Most of this comes from createObject, because it was
+ * hell trying to figure out how that would eventually work
+
+		$.each( $( element ).children('state'), function(index, state_element) {
+		       
+			self._createState(state_element);
+
+			var state_name = self._object_state_names[index];
+			var state_property_names = self._panelObjectMap['DISPLAY_STATE']
+			var state_properties = {};
+
+			for (var i = 0; i < state_property_names.length; i++) {
+				var key = self._convertProperty(state_property_names[i]);
+				var val = self._convertValue(key, $( state_element ).attr(state_property_names[i]));
+				state_properties[key] = val;
+			}
+
+			objectStates[state_name] = new ws.SCObjectState(state_properties);
+		});
+			*/
+
+			/*
+		$.each( $( element ).children('switch'), function(index, switch_element) {
+			self._createSwitchFragment(switch_element);
+			var switch_name = self._object_switch_names[index];
+			var switch_property_names = self._panelObjectMap['ANIMATION']
+			var switch_properties = {};
+
+			for (var i = 0; i < switch_property_names.length; i++) {
+				var key = self._convertProperty(switch_property_names[i]);
+				var val = self._convertValue(key, $( switch_element ).attr(switch_property_names[i]));
+
+				switch_properties[key] = val;
+			}
+
+			objectSwitches.push( new ws.SCObjectSwitch( states , switch_properties) );
+		});
+			*/
+
+				/*
+		for (var i = 0; i < this._object_state_names.length; i++) {
+			var cur_state = this._object_state_names[i];
+			var state_properties = this._panelObjectMap[cur_state];
+			var properties = {};
+
+			for (var j = 0; j < state_properties.length; j++) {
+
+				var key = this._propConvert[state_properties[i]];
+				var val = $( element ).attr(state_properties[i]);
+				val = self._propertyIntMap[state_properties[i]] ? parseInt(val) : val;
+				val = self._propertyBoolMap[state_properties[i]] ? ws.parseBool(val) : val;
+
+				/*
+				$.each(elementInfo['properties'], function (index, propertyName) {
+					// Check to see if value is an int, and convert if so
+					var val = $( element ).attr(propertyName) || self._animationDefaults[propertyName];
+					val = self._propertyIntMap[propertyName] ? parseInt(val) : val;
+					val = self._propertyBoolMap[propertyName] ? ws.parseBool(val) : val;
+
+					// add properly formatted value
+					objectInfo[propertyName] = val;
+				});
+				properties[key] = val;
+			} // end for
+
+			objectStates[cur_state] = new ws.SCObjectState(properties);
+		} // end for
+				*/
+
+		/*
+		var objectStates = {
+			'PREV_STATE': new ws.SCObjectState(properties),
+			'SHOW_STATE': new ws.SCObjectState(element, self._panelObjectMap['SHOW_STATE']),
+			'OUT_STATE': new ws.SCObjectState(element, self._panelObjectMap['OUT_STATE'])
+		};
+		*/
+
+		/*
+		var objectSwitches = {
+			'IN_ANIMATION': new ws.SCObjectSwitch([objectStates.PREV_STATE, objectStates.SHOW_STATE], self._panelObjectMap['IN_ANIMATION']),
+			'OUT_ANIMATION': new ws.SCObjectSwitch([objectStates.SHOW_STATE, objectStates.OUT_STATE], self._panelObjectMap['OUT_ANIMATION'])
+		}
+		*/
+
+		/*
+		// Read element properties
+		var elementInfo = this._elementPropertyMap[element.tagName];
+
+		var states = {};
+		var properties;
+
+		// create a state for every key
+		for (var i = 0; i < this._stateKeys.length; i++) {
+
+			var properties = this._elementPropertyMap[this._stateKeys[i]];
+			var stateProperties = {};
+
+			// Get each property, convert state related property name
+			// to neutral property name with function call
+			//
+			$.each(properties, function(index, propertyName) {
+				stateProperties[self._convertProperty(propertyName)] 
+					= $( element ).attr(propertyName);
+			});
+
+			// Add new state
+			states[this._stateKeys[i]] = new ws.SCObjectState(stateProperties);
+		}
+		*/
+
+	/*
+
+	THE WHATCHAMACALLIT VARS FROM the SWITCHCOMIC function (moved to
+ObjectFactory
+
+	this._panelObjectMap = {
+		'ANIMATION': {
+			'in': ['pinduration', 'pinwait', 'fromx', 'fromy', 'pinfade', 'pinease'],
+			'out': ['poutduration', 'poutwait', 'tox', 'toy', 'poutfade', 'poutease']
+		},
+		'SW-IMAGE': {
+			type: 'SW-IMAGE',
+			properties: ['psrc', 'px', 'py'],
+		},
+		'SHAPE': {
+			type: 'SHAPE',
+			properties: ['pshape', 'pstroke-style', 'pfill-color', 'pstroke-color', 'px', 'py', 'pw', 'ph', 'pradius']
+		}
+	};
+
+	this._propertyIntMap =  {
+		pinduration: true,
+		pinwait: true,
+		fromx: true,
+		fromy: true,
+		poutduration: true,
+		poutwait: true,
+		tox: true,
+		toy: true,
+		px: true,
+		py: true,
+		pw: true,
+		ph: true,
+		pradius: true,
+		'pstroke-style': true
+	};
+
+	this._propertyBoolMap = {
+		pinfade: true,
+		poutfade: true
+	};
+
+	this._animationDefaults = {
+		// animation defaults
+		pinduration: 300,
+		pinwait: 0,
+		pinfade: false,
+		poutduration: 300,
+		poutwait: 0,
+		poutfade: false,
+		pinease: createjs.Ease.quadInOut,
+		poutease: createjs.Ease.quadInOut
+	};
+	*/
+
+		//var current = this._renderPanel(this._currentPanel); var
+
+		//on_deck = this._renderPanel(this._currentPanel + 1, 'next');
+
+		/*}this._panelObjectMap['PREV_STATE']*/
+		/* 'PREV_STATE' | 'IN_ANIMATION' | 'SHOW_STATE' | 'OUT_ANIMATION' | 'OUT_STATE' */
+
+		/*
+		var objectInfo = {
+			id: element.id,
+			type: elementInfo.type,
+			adjustment: adjustment || undefined,
+		};
+
+		$.each(elementInfo['properties'], function (index, propertyName) {
+			// Check to see if value is an int, and convert if so
+			var val = $( element ).attr(propertyName) || self._animationDefaults[propertyName];
+			val = self._propertyIntMap[propertyName] ? parseInt(val) : val;
+			val = self._propertyBoolMap[propertyName] ? ws.parseBool(val) : val;
+
+			// add properly formatted value
+			objectInfo[propertyName] = val;
+		});
+		*/
+
+		//var object = self._stageObject(element, adjustment);
+
+	// 
+	// First draft of animate
+	//
+	animate: function(direction) {
+
+		this._state_list;
+		/*
+		// get animations for a specific function
+		var animations = [];
+
+		for (var i=0; i < animations.length; i++) {
+			animations[i](this._tween());
+		}
+		*/
+	},
+
+--------------------------
+
+1) Animation Properties aren't being passed along properly (FIXED)
+
+2) How to tell which object state to snap to in the list
+- - When an object is first created, we can take the current state of
+  the panel
+- - When an object is called back, it may have 
+
+3) Wrong Panel information is being passed in...1st panel is 
+
+- - If you're talking about panels, it always starts on the 1st state
+- - - unless we're warping to a specific panel
+
+-============
+
+Anyway, for the beginning, the answer is 0
+
+how do i know that? because it's the first state that was passed in
+
+What does it depend on
+
+- The status of the panel (current, prev, or next)
+- - Prev (usually the first)
+- - Current (usually the middle)
+- - Next (usually the end)
+- - Exceptions
+- - - 1st Panel and Last Panel
+- - - - Last => (prev and current(ie, end))
+- - - - First => (current(ie, beginning) and next)
+- The number of states the object has ()
+
+- Marking down the two additional states is a good temporary fix
+
+========
+
+() If there are 3 states...
+
+() If there are only 2 states...
+
+- - One is blank
+
+- - X
+
+4) ALL SYNTAX ERRORS EXPUNGED!!!
+
+- X image is UNDEFINED *gasp*
+
+5) Need to actually animate this stuff...
+
+--- Needs to be revisited, it does...
+
+6) Need to add fade function to animatable
+
+IT WORKS!!!! It just doesn't animate...because of my mistakes...
+
+===========
+
+- Duration and ease are not getting overwritten in properties
+- -- fixed ease, now have to fix duration
+
+- Also need to handle riding-elements
+
+==========
+
+Add(component)
+
+- if it's a Node
+- if it's a Pointer
+
+- setNext is working off the original node
+
+--------
+
+- It may be that you need to make a new tween every time (I'LL TRY IT)
+- 
+- they're disappearing...are they being unstaged?
+- - yes they are...
+- - and there's nothing that restages them...  So
+
+--------
+
+YEAH!!! I GOT TWO!!!!
+
+----------
+
+CODE DUMP pt. 5 FROM SwitchComic::switchForward/Back
+
+		/*
+		// Remove previous objects from stage
+		if (this._stagedPanels.prev) {
+			$.each(this._stagedPanels.prev.objects, function (index, object) {
+				self._stage.removeChild(object);
+			});
+		}
+
+		$.each(this._stagedPanels.current.objects, function (index, object) {
+			var tween = createjs.Tween.get(object).wait(object.pinfo.poutwait).to(self._getToParameters(object, 'toPrev'), object.pinfo.poutduration, object.pinfo.poutease);
+		});
+
+		$.each(this._stagedPanels.next.objects, function (index, object) {
+			var tween = createjs.Tween.get(object).wait(object.pinfo.pinwait).to(self._getToParameters(object, 'toDisplay'), object.pinfo.pinduration, self._getEaseFunction(object.pinfo.pinease));
+			//var tween = createjs.Tween.get(object).wait(object.pinfo.pinwait).to(self._getToParameters(object, 'toDisplay'), object.pinfo.pinduration, createjs.Ease.linear);
+		});
+		*/
+
+		/*
+		// Remove on deck objects from stage
+		if (this._stagedPanels.next) {
+			$.each(this._stagedPanels.next.objects, function (index, object) {
+				self._stage.removeChild(object);
+			});
+		}
+
+		// Previous to current
+		$.each(this._stagedPanels.prev.objects, function (index, object) {
+			// var tween = createjs.Tween.get(object).to(this.{x: (object.x + self.CANVAS_WIDTH)}, 200, createjs.Ease.quadIn);
+			var tween = createjs.Tween.get(object).wait(object.pinfo.poutwait).to(self._getToParameters(object, 'toDisplay'), object.pinfo.poutduration, object.pinfo.poutease);
+		});
+
+		// Current to next (on deck)
+		$.each(this._stagedPanels.current.objects, function (index, object) {
+			// var tween = createjs.Tween.get(object).to({x: (object.x + self.CANVAS_WIDTH)}, 200, createjs.Ease.quadIn);
+			var tween = createjs.Tween.get(object).wait(object.pinfo.pinwait).to(self._getToParameters(object, 'toNext'), object.pinfo.pinduration, self._getEaseFunction(object.pinfo.pinease));
+		});
+		*/
+
+	/*
+	_getEaseFunction: function (identifier) {
+		switch(identifier) {
+			case 'quintInOut':
+				return createjs.Ease.quintInOut;
+			case 'quadInOut':
+				return createjs.Ease.quadInOut;
+			case 'linear':
+				return createjs.Ease.linear;
+			default:
+				return createjs.Ease.linear;
+		}
+	}*/ 
+
+/*
+
+_renderPanel: function (panelIndex, position) { var self = this; var
+panel = $( this._comic ).children('panel').eq(panelIndex); var objects
+= []; var adjustment;
+
+		position = position || 'current';
+		if (position != 'current') {
+			if (position === 'next') {
+				adjustment = 'right';
+			} else {
+				adjustment = 'left';
+			}
+		}
+
+		// Get new children and stage them
+		$( panel ).children('new-elements').children().each(function (index, element) {
+			var object = self._stageObject(element, adjustment);
+			objects.push(object);
+		});
+
+		return {
+			panel: panel,
+			objects: objects
+		};
+	},
+*/
+
+
+-----
+
+CODE DUMP pt. 6
+
+
+		/*
+		if (this._stagedPanels.prev) {
+			this._stagedPanels.prev.unstage(this._stage);
+		}
+
+		this._stagedPanels.current.switchTo('right');
+
+		if (this._stagedPanels.next) {
+			this._stagedPanels.next.switchTo('right');
+		}
+
+
+		this._stagedPanels.prev = this._stagedPanels.current;
+		this._stagedPanels.current = this._stagedPanels.next;
+
+		// increment
+		this._currentPanel += 1;
+		*/
+
+		// stage next panel in the lineup
+		//this._stagedPanels.next = this._renderPanel(this._currentPanel + 1, 'next');
+		/*
+		if ((this._currentPanel + 1) < this._comic_length) {
+			var new_element = $( this._comic ).children('panel').eq(this._currentPanel + 1);
+			this._stagedPanels.next = new ws.SCPanel(this.ObjectFactory, {
+					element: new_element,
+					state: 'next'
+			});
+		} else {
+			this._stagedPanels.next = undefined;
+		}
+		*/
+
+		/*
+		// Remove on deck objects from stage
+		if (this._stagedPanels.next) {
+			this._stagedPanels.next.unstage(this._stage);
+		}
+
+		this._stagedPanels.current.switchTo('left');
+		this._stagedPanels.prev.switchTo('left');
+
+
+		this._stagedPanels.next = this._stagedPanels.current;
+		this._stagedPanels.current = this._stagedPanels.prev;
+
+		// decrement 
+		this._currentPanel -= 1;
+
+		if (this._currentPanel > 0) {
+
+			// load previous panel in lineup
+			//this._stagedPanels.prev = this._renderPanel(this._currentPanel - 1, 'prev');
+			var panel = $( this._comic ).children('panel').eq(this._currentPanel - 1);
+			this._stagedPanels.prev = new ws.SCPanel(this.ObjectFactory, {
+				element: panel,
+				state: 'prev'
+			});
+		} else {
+			this._stagedPanels.prev = undefined;
+		}
+		*/
+
+		/*
+		var test = new ws.SCPanel(this.ObjectFactory, {
+			element: testpanel,
+		    	state: 'first'
+		});
+		*/
+
+		/*
+		var test_2 = new ws.SCPanel(this.ObjectFactory, {
+			element: testpanel_2,
+		    	state: 'next'
+		});
+		*/
+
+-----
+
+What do I got left?
+
+1) x ObjectPool to store unstaged objects
+
+- - Also need to store references to rendered panels
+- - - I might not actually need to store unstaged objects
+- - Storing referenes to rendered panels fixes the unstaged objects
+  problem
+
+2) Fix duration
+
+- X there's to_duration, wait_duration, fade_duration
+
+3) Add fade
+
+4) Add Element Transfer || Riding Elements
+- - add object_ids
+- - - if object is at the end
+
+- - - I could use the objectpool idea here
+- - - - A pool of element references: "by_id"
+
+- - - We can solve the index problem with stage.setChildIndex
+- - -
+
+- when the element is transferred, the ref is given to next panel
+- current ref is replaced with NULL
+
+5) Add off option
+- - 
+
+6) Solve rapid switching problem
+
+7) Why not just ignore undefined || NaN values?

@@ -1,0 +1,30 @@
+div.timer-clock > span.colon {
+	font-size:40px;
+	position:relative;
+	top: -40px;
+}
+
+div.timer-control {
+	display:inline-block;
+}
+
+input.timer-input {
+	font-size:60px;
+	width:70px;
+	display:block;
+}
+
+button.timer-control-arrow {
+	width:70px;
+	border:none;
+	background-color:gray;
+	color:white;
+	display:block;
+}
+
+button.timer-toggle-switch {
+	width:160px;
+	color:white;
+	background-color:green;
+	border:none;
+}

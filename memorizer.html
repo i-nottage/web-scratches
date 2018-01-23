@@ -1,0 +1,64 @@
+<html>
+	<head>
+		<script src="js/utilities.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+		<script src="js/memorizer.js"></script>
+
+		<style>
+
+			#part-display {
+
+				height : 400px;
+				overflow : scroll;
+			}
+
+			#part-display > li {
+				list-style-type: none;
+			}
+
+		</style>
+
+		<script type="text/javascript">
+		var ws_memorizer;
+
+		ws.Autoloader(function() {
+	     
+				ws_memorizer = new ws.Memorizer({
+						player : document.getElementById('player'),
+						part_display : document.getElementById('part-display'),
+						controls : document.getElementById('controls')
+					});
+		});
+		</script>
+	</head>
+	<body>
+		<div id="header">
+			<h1>MEMORIZER</h1>
+		</div>
+		<div id="content">
+			<div id="player">
+
+				<div id="player-display"></div>
+				<div id="player-controls">
+					<button class="player-next">Next</button>
+					<button class="player-back">Back</button>
+					<button class="player-stop">Stop</button>
+				</div>
+			</div>
+			<div>
+				<ul id="part-display">
+				</ul>
+			</div>
+			<div>
+				<form id="controls">
+					<input type="text"><br>
+					<button class="input">Input</button>
+					<button class="play">Play</button>
+				</form>
+			</div>
+		</div>
+		<div id="footer">
+			<a href="index.html">Back to Reality</a>
+		</div>
+	</body>
+</html>
